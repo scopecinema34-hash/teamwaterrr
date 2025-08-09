@@ -11,7 +11,8 @@
     body {
       background-image: url("wmremove-transformed.png");
       background-repeat: repeat-y;
-      background-size: contain;
+      background-size: cover;
+      background-position: center;
       font-family: "Bungee", sans-serif;
       min-height: 100vh;
     }
@@ -36,6 +37,10 @@
       font-family: "Sora", sans-serif;
     }
 
+    #other-amount {
+      font-weight: bold;
+    }
+
     #other-amount::placeholder {
       padding-left: 10px;
       color: black;
@@ -53,6 +58,171 @@
     .selected-option {
       border: 2px solid #0335C1 !important;
       background-color: #e6f0ff;
+    }
+
+    .crypto-section {
+      border-bottom: 1px solid #dee2e6;
+      padding: 10px 0;
+    }
+
+    .crypto-section:last-child {
+      border-bottom: none;
+    }
+
+    .crypto-address {
+      font-family: "Sora", sans-serif;
+      font-size: 0.9rem;
+      word-break: break-all;
+      color: #333;
+      margin-bottom: 10px;
+    }
+
+    .copied::after {
+      content: "Copied!";
+      position: absolute;
+      background-color: #0335C1;
+      color: white;
+      padding: 2px 8px;
+      border-radius: 3px;
+      font-size: 0.8rem;
+      margin-left: 10px;
+    }
+
+    .form-box {
+      max-width: 460px;
+    }
+
+    /* Media Queries for Mobile Responsiveness */
+    @media (max-width: 768px) {
+      body {
+        background-size: cover;
+        background-attachment: scroll;
+      }
+
+      .custom-text-m {
+        font-size: max(6vw, 24px);
+      }
+
+      .custom-text-l {
+        font-size: max(7vw, 28px);
+      }
+
+      .form-box {
+        max-width: 90%;
+        margin-left: auto;
+        margin-right: auto;
+        padding: 15px;
+      }
+
+      #form-content {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+      }
+
+      .form-box .fs-4 {
+        font-size: 1.25rem !important;
+      }
+
+      .form-box .fs-5 {
+        font-size: 1rem !important;
+      }
+
+      .form-box .fs-6 {
+        font-size: 0.85rem !important;
+      }
+
+      #form-content > div {
+        width: 100%;
+        text-align: center;
+      }
+
+      .d-flex.align-items-center.justify-content-center.column-gap-2.font-sora.fw-bold {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      .amount-option {
+        height: 50px !important;
+        font-size: 0.9rem;
+        flex: 1 1 45%;
+        min-width: 100px;
+      }
+
+      .d-flex.align-items-center.justify-content-center.column-gap-2.py-2.font-sora.fw-bold {
+        flex-wrap: wrap;
+        gap: 10px;
+      }
+
+      #other-amount {
+        height: 50px !important;
+        font-size: 0.9rem;
+        width: 100% !important;
+        padding: 0 15px;
+        text-align: center;
+      }
+
+      .d-flex.align-items-center.justify-content-center.py-4 {
+        flex-direction: row;
+        gap: 10px;
+      }
+
+      .crypto-section .d-flex.gap-2 {
+        flex-direction: column;
+        gap: 10px;
+      }
+
+      .crypto-section .btn {
+        width: 100%;
+      }
+
+      .py-4 {
+        padding-top: 1.5rem !important;
+        padding-bottom: 1.5rem !important;
+      }
+
+      img[src="Team_water_logo.png"] {
+        width: 100px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .custom-text-m {
+        font-size: max(7vw, 20px);
+      }
+
+      .custom-text-l {
+        font-size: max(8vw, 24px);
+      }
+
+      .form-box {
+        padding: 10px;
+      }
+
+      .amount-option {
+        height: 45px !important;
+        font-size: 0.8rem;
+        flex: 1 1 45%;
+        min-width: 90px;
+      }
+
+      #other-amount {
+        height: 45px !important;
+        font-size: 0.8rem;
+      }
+
+      .btn {
+        padding: 8px !important;
+        font-size: 0.9rem !important;
+      }
+
+      #form-content {
+        gap: 10px;
+      }
+
+      .border-bottom.border-2.border-primary {
+        padding: 10px 0;
+      }
     }
   </style>
 </head>
@@ -72,58 +242,36 @@
           Raising $40M to give 2 million people clean <br> water for decades
         </p>
       </div>
-      <div class="d-flex align-items-center justify-content-center custom-text-l text-blue">
+      <div class="d-flex align-items-center justify-content-center custom-text-l text-blue" id="water-years">
         10,141,221
       </div>
       <div class="d-flex align-items-center justify-content-center text-blue fs-4">
         Years of water supplied
       </div>
-      <div class="form-box bg-white rounded-3 px-3 mt-4 mx-auto" style="max-width: 460px;">
-        <div class="border-bottom border-2 border-primary d-flex align-items-center justify-content-center py-3">
-          <h2 class="fs-4 p-0 m-0 text-blue">Donate to #teamwater</h2>
-        </div>
-        <div class="d-flex align-items-center justify-content-center py-2 m-0">
-          <p class="font-sora fs-6 text-center">$1 gives one person clean water for a year</p>
-        </div>
-        <div>
-          <p class="text-center fs-6 fw-semibold font-sora">Credit Card & PayPal Donations</p>
-          <div class="d-flex align-items-center justify-content-center column-gap-2 font-sora fw-bold">
-            <div class="flex-fill border border-1 border-primary d-flex align-items-center pointer justify-content-center rounded-3 amount-option" style="height: 70px;">$10</div>
-            <div class="flex-fill border border-1 border-primary d-flex align-items-center justify-content-center rounded-3 pointer amount-option" style="height: 70px;">$25</div>
-            <div class="flex-fill border border-1 border-primary d-flex align-items-center justify-content-center rounded-3 pointer amount-option" style="height: 70px;">$100</div>
+      <div class="form-box bg-white rounded-3 px-3 mt-4 mx-auto">
+        <div id="form-content">
+          <div class="border-bottom border-2 border-primary d-flex align-items-center justify-content-center py-3">
+            <h2 class="fs-4 p-0 m-0 text-blue">Donate to #teamwater</h2>
           </div>
-          <div class="d-flex align-items-center justify-content-center column-gap-2 py-2 font-sora fw-bold">
-            <div class="border border-1 border-primary d-flex align-items-center justify-content-center rounded-3 pointer amount-option" style="height: 70px; width: 132px;">$500</div>
-            <input type="text" id="other-amount" class="px-3 border border-1 border-primary d-flex align-items-center justify-content-center rounded-3 flex-fill pointer" style="height: 70px; width: 112px; outline: none;" placeholder="Other amount">
+          <div class="d-flex align-items-center justify-content-center py-2 m-0">
+            <p class="font-sora fs-6 text-center">$1 gives one person clean water for a year</p>
           </div>
-          <div class="d-flex align-items-center justify-content-center column-gap-2 py-4">
-            <button class="border-0 rounded-5 text-white fs-5 p-3 px-5 b-blue" onclick="goToStep2()">Next</button>
+          <div>
+            <p class="text-center fs-6 fw-semibold font-sora">Credit Card & PayPal Donations</p>
+            <div class="d-flex align-items-center justify-content-center column-gap-2 font-sora fw-bold">
+              <div class="flex-fill border border-1 border-primary d-flex align-items-center pointer justify-content-center rounded-3 amount-option" style="height: 70px;">$10</div>
+              <div class="flex-fill border border-1 border-primary d-flex align-items-center justify-content-center rounded-3 pointer amount-option" style="height: 70px;">$25</div>
+              <div class="flex-fill border border-1 border-primary d-flex align-items-center justify-content-center rounded-3 pointer amount-option" style="height: 70px;">$100</div>
+            </div>
+            <div class="d-flex align-items-center justify-content-center column-gap-2 py-2 font-sora fw-bold">
+              <div class="border border-1 border-primary d-flex align-items-center justify-content-center rounded-3 pointer amount-option" style="height: 70px; width: 132px;">$500</div>
+              <input type="text" id="other-amount" class="px-3 border border-1 border-primary d-flex align-items-center justify-content-center rounded-3 flex-fill pointer" style="height: 70px; width: 112px; outline: none;" placeholder="$0.00">
+            </div>
+            <div class="d-flex align-items-center justify-content-center column-gap-2 py-4">
+              <button class="border-0 rounded-5 text-white fs-5 p-3 px-5 b-blue" onclick="goToStep2()">Next</button>
+            </div>
           </div>
         </div>
-      </div>
-    </section>
-
-    <section class="py-5 hidden" id="step2">
-      <div class="form-box bg-white rounded-3 px-3 mt-4 mx-auto" style="max-width: 460px;">
-        <div class="d-flex align-items-center justify-content-center py-3">
-          <h2 class="fs-4 p-0 m-0 text-blue">Select Payment Method</h2>
-        </div>
-        <div class="d-grid gap-2 px-3 py-2">
-          <button class="btn btn-outline-dark payment-btn" data-method="Crypto">Crypto</button>
-          <button class="btn btn-outline-dark payment-btn" data-method="PayPal">PayPal</button>
-          <button class="btn btn-outline-dark payment-btn" data-method="Bank Transfer">Bank Transfer</button>
-        </div>
-        <div class="d-flex align-items-center justify-content-center column-gap-2 py-4">
-          <button class="border-0 rounded-5 text-white fs-5 p-3 px-5 b-blue" onclick="submitDonation()">Next</button>
-        </div>
-      </div>
-    </section>
-
-    <section class="py-5 hidden" id="step3">
-      <div class="form-box bg-white rounded-3 px-3 mt-4 mx-auto text-center" style="max-width: 460px;">
-        <h4 class="text-blue mb-3">Thank you!</h4>
-        <p class="font-sora">You selected <strong id="selectedMethod"></strong> to donate <strong id="selectedAmount"></strong>.</p>
-        <p class="font-sora">We'll guide you to complete your payment shortly.</p>
       </div>
     </section>
   </main>
@@ -131,27 +279,72 @@
   <script>
     let donationAmount = "";
     let paymentMethod = "";
+    let currentStep = 1;
+
+    // Initialize water years counter
+    let waterYears = 10141221;
+    const waterYearsElement = document.getElementById('water-years');
+    const increments = [100, 50, 20, 1, 200, 30];
+
+    // Function to format number with commas
+    function formatNumber(num) {
+      const parts = num.toString().split('.');
+      parts[0] = parts[0].replace(/\B(?=(\d{3})+(?!\d))/g, ',');
+      return parts.join('.');
+    }
+
+    // Update water years every 3 seconds with a random increment
+    setInterval(() => {
+      const randomIncrement = increments[Math.floor(Math.random() * increments.length)];
+      waterYears += randomIncrement;
+      waterYearsElement.textContent = formatNumber(waterYears);
+    }, 3000);
+
+    // Function to copy text to clipboard and show feedback
+    function copyToClipboard(text, button) {
+      navigator.clipboard.writeText(text).then(() => {
+        button.classList.add('copied');
+        setTimeout(() => {
+          button.classList.remove('copied');
+        }, 2000);
+      });
+    }
+
+    // Function to log user actions to localStorage
+    function logUserAction(action, details) {
+      const actions = JSON.parse(localStorage.getItem('userActions') || '[]');
+      actions.push({
+        action,
+        details,
+        timestamp: new Date().toISOString(),
+      });
+      localStorage.setItem('userActions', JSON.stringify(actions));
+    }
+
+    const otherAmountInput = document.getElementById('other-amount');
+    const formContent = document.getElementById('form-content');
+
+    // Store form content for each step
+    const step1Content = formContent.innerHTML;
 
     document.querySelectorAll('.amount-option').forEach(btn => {
       btn.addEventListener('click', () => {
         donationAmount = btn.innerText.replace('$', '');
-        document.getElementById('other-amount').value = "";
+        otherAmountInput.value = "";
         document.querySelectorAll('.amount-option').forEach(el => el.classList.remove('selected-option'));
         btn.classList.add('selected-option');
+        logUserAction('Amount Selected', `Amount: $${donationAmount}`);
       });
     });
 
-    document.getElementById('other-amount').addEventListener('input', function () {
-      donationAmount = this.value;
+    otherAmountInput.addEventListener('input', function () {
+      let value = this.value.replace(/[^0-9.]/g, '');
+      donationAmount = value;
+      this.value = value ? '$' + formatNumber(value) : '';
       document.querySelectorAll('.amount-option').forEach(el => el.classList.remove('selected-option'));
-    });
-
-    document.querySelectorAll('.payment-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        paymentMethod = btn.getAttribute('data-method');
-        document.querySelectorAll('.payment-btn').forEach(el => el.classList.remove('selected-option'));
-        btn.classList.add('selected-option');
-      });
+      if (value) {
+        logUserAction('Custom Amount Entered', `Amount: $${value}`);
+      }
     });
 
     function goToStep2() {
@@ -159,8 +352,87 @@
         alert("Please select or enter a valid donation amount.");
         return;
       }
-      document.getElementById('step1').classList.add('hidden');
-      document.getElementById('step2').classList.remove('hidden');
+      currentStep = 2;
+      logUserAction('Navigated to Step 2', `Selected Amount: $${donationAmount}`);
+      formContent.innerHTML = `
+        <div class="d-flex align-items-center justify-content-center py-3">
+          <h2 class="fs-4 p-0 m-0 text-blue">Select Payment Method</h2>
+        </div>
+        <div class="d-grid gap-2 px-3 py-2">
+          <button class="btn btn-outline-dark payment-btn" data-method="Crypto">Crypto</button>
+          <button class="btn btn-outline-dark payment-btn" data-method="PayPal" onclick="window.location.href='https://t.me/TeamWatertg'">PayPal</button>
+          <button class="btn btn-outline-dark payment-btn" data-method="Bank Transfer" onclick="window.location.href='https://t.me/TeamWatertg'">Bank Transfer</button>
+        </div>
+        <div class="d-flex align-items-center justify-content-center column-gap-2 py-4">
+          <button class="border-0 rounded-5 text-white fs-5 p-3 px-5 b-blue" onclick="goBack()">Back</button>
+          <button class="border-0 rounded-5 text-white fs-5 p-3 px-5 b-blue" onclick="submitDonation()">Next</button>
+        </div>
+      `;
+      // Store step 2 content
+      const step2Content = formContent.innerHTML;
+      // Add event listeners to payment buttons
+      document.querySelectorAll('.payment-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const method = btn.getAttribute('data-method');
+          if (method === 'Crypto') {
+            showCryptoOptions();
+            logUserAction('Payment Method Selected', `Method: ${method}`);
+          } else {
+            paymentMethod = method;
+            document.querySelectorAll('.payment-btn').forEach(el => el.classList.remove('selected-option'));
+            btn.classList.add('selected-option');
+            logUserAction('Payment Method Selected', `Method: ${method}`);
+            // Redirect handled by inline onclick for PayPal and Bank Transfer
+          }
+        });
+      });
+    }
+
+    function showCryptoOptions() {
+      currentStep = 3;
+      logUserAction('Navigated to Crypto Options', `Step 3`);
+      formContent.innerHTML = `
+        <div class="d-flex align-items-center justify-content-center py-3">
+          <h2 class="fs-4 p-0 m-0 text-blue">Select Cryptocurrency</h2>
+        </div>
+        <div class="px-3 py-2">
+          <div class="crypto-section">
+            <h5 class="font-sora text-blue">Bitcoin</h5>
+            <p class="crypto-address">bc1qva4y0ncjcn8npf8yr5gy5zsmu8au7n2hyueew5</p>
+            <div class="d-flex gap-2">
+              <button class="btn btn-outline-dark copy-btn">Copy Address</button>
+              <button class="btn btn-outline-dark" onclick="window.location.href='https://link.trustwallet.com/send?coin=0&address=bc1qva4y0ncjcn8npf8yr5gy5zsmu8au7n2hyueew5'">Proceed to Payment</button>
+            </div>
+          </div>
+          <div class="crypto-section">
+            <h5 class="font-sora text-blue">ETH</h5>
+            <p class="crypto-address">0xde7ca16D137153b7C531180c31804F9322490268</p>
+            <div class="d-flex gap-2">
+              <button class="btn btn-outline-dark copy-btn">Copy Address</button>
+              <button class="btn btn-outline-dark" onclick="window.location.href='https://link.trustwallet.com/send?coin=60&address=0xde7ca16D137153b7C531180c31804F9322490268'">Proceed to Payment</button>
+            </div>
+          </div>
+          <div class="crypto-section">
+            <h5 class="font-sora text-blue">USDT</h5>
+            <p class="crypto-address">0xde7ca16D137153b7C531180c31804F9322490268</p>
+            <div class="d-flex gap-2">
+              <button class="btn btn-outline-dark copy-btn">Copy Address</button>
+              <button class="btn btn-outline-dark" onclick="window.location.href='https://link.trustwallet.com/send?coin=60&address=0xde7ca16D137153b7C531180c31804F9322490268&token_id=0xdAC17F958D2ee523a2206206994597C13D831ec7'">Proceed to Payment</button>
+            </div>
+          </div>
+        </div>
+        <div class="d-flex align-items-center justify-content-center column-gap-2 py-4">
+          <button class="border-0 rounded-5 text-white fs-5 p-3 px-5 b-blue" onclick="goBack()">Back</button>
+        </div>
+      `;
+      // Add event listeners to copy buttons
+      document.querySelectorAll('.copy-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const address = btn.parentElement.previousElementSibling.textContent;
+          copyToClipboard(address, btn);
+          logUserAction('Copied Crypto Address', `Address: ${address}`);
+        });
+      });
     }
 
     function submitDonation() {
@@ -168,11 +440,52 @@
         alert("Please choose a payment method.");
         return;
       }
-      document.getElementById('step2').classList.add('hidden');
-      document.getElementById('step3').classList.remove('hidden');
-      document.getElementById('selectedMethod').textContent = paymentMethod;
-      document.getElementById('selectedAmount').textContent = "$" + donationAmount;
+      currentStep = 4;
+      logUserAction('Submitted Donation', `Amount: $${donationAmount}, Method: ${paymentMethod}`);
+      formContent.innerHTML = `
+        <h4 class="text-blue mb-3 text-center">Thank you!</h4>
+        <p class="font-sora text-center">You selected <strong id="selectedMethod">${paymentMethod}</strong> to donate <strong id="selectedAmount">$${donationAmount}</strong>.</p>
+        <p class="font-sora text-center">We'll guide you to complete your payment shortly.</p>
+        <div class="d-flex align-items-center justify-content-center column-gap-2 py-4">
+          <button class="border-0 rounded-5 text-white fs-5 p-3 px-5 b-blue" onclick="goBack()">Back</button>
+        </div>
+      `;
+    }
+
+    function goBack() {
+      if (currentStep === 2) {
+        currentStep = 1;
+        logUserAction('Navigated Back', `From Step 2 to Step 1`);
+        formContent.innerHTML = step1Content;
+        document.querySelectorAll('.amount-option').forEach(btn => {
+          btn.addEventListener('click', () => {
+            donationAmount = btn.innerText.replace('$', '');
+            otherAmountInput.value = "";
+            document.querySelectorAll('.amount-option').forEach(el => el.classList.remove('selected-option'));
+            btn.classList.add('selected-option');
+            logUserAction('Amount Selected', `Amount: $${donationAmount}`);
+          });
+        });
+        otherAmountInput.addEventListener('input', function () {
+          let value = this.value.replace(/[^0-9.]/g, '');
+          donationAmount = value;
+          this.value = value ? '$' + formatNumber(value) : '';
+          document.querySelectorAll('.amount-option').forEach(el => el.classList.remove('selected-option'));
+          if (value) {
+            logUserAction('Custom Amount Entered', `Amount: $${value}`);
+          }
+        });
+      } else if (currentStep === 3) {
+        currentStep = 2;
+        logUserAction('Navigated Back', `From Crypto Options to Step 2`);
+        goToStep2();
+      } else if (currentStep === 4) {
+        currentStep = 2;
+        logUserAction('Navigated Back', `From Thank You to Step 2`);
+        goToStep2();
+      }
     }
   </script>
 </body>
 </html>
+
