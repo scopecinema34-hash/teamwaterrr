@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>#TeamWater Dashboard</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.7/dist/css/bootstrap.min.css" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <style>
+    body {
+      font-family: 'Sora', sans-serif;
+      background-color: #f8f9fa;
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .dashboard-container {
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .card {
+      border: none;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 10px;
+      margin-bottom: 20px;
+    }
+
+    .card-header {
+      background-color: #0335C1;
+      color: white;
+      font-weight: bold;
+      border-radius: 10px 10px 0 0;
+    }
+
+    .table {
+      background-color: white;
+      border-radius: 10px;
+      overflow: hidden;
+    }
+
+    .table th {
+      background-color: #e6f0ff;
+      color: #0335C1;
+      cursor: pointer;
+    }
+
+    .table td {
+      vertical-align: middle;
+    }
+
+    .summary-card {
+      background-color: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      transition: transform 0.2s;
+    }
+
+    .summary-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .summary-card h5 {
+      color: #0335C1;
+      font-weight: bold;
+    }
+
+    .chart-container {
+      height: 300px;
+      margin: 20px 0;
+    }
+
+    .btn-clear {
+      background-color: #dc3545;
+      border: none;
+    }
+
+    .btn-clear:hover {
+      background-color: #c82333;
+    }
+
+    .btn-export {
+      background-color: #198754;
+      border: none;
+    }
+
+    .btn-export:hover {
+      background-color: #157347;
+    }
+
+    .search-input {
+      max-width: 300px;
+    }
+
+    .pagination {
+      justify-content: center;
+      margin-top: 20px;
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-container {
+        padding: 10px;
+      }
+
+      .summary-card {
+        margin-bottom: 20px;
+      }
+
+      .table {
+        font-size: 0.9rem;
+      }
+
+      .chart-container {
+        height: 250px;
+      }
+    }
+
+    @media (max-width: 576px) {
+      .table {
+        font-size: 0.8rem;
+      }
+
+      .summary-card {
+        padding: 15px;
+      }
+
+      .card-header {
+        font-size: 1.2rem;
+      }
+
+      .chart-container {
+        height: 200px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="dashboard-container">
+    <h1 class="text-center mb-4" style="color: #0335C1;">#TeamWater User Actions Dashboard</h1>
+    
+    <!-- Summary Cards -->
+    <div class="row mb-4">
+      <div class="col-md-3 col-sm-6">
+        <div class="summary-card">
+          <h5>Total Actions</h5>
+          <p id="total-actions" class="fs-3">0</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="summary-card">
+          <h5>Most Selected Amount</h5>
+          <p id="most-selected-amount" class="fs-3">N/A</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="summary-card">
+          <h5>Most Selected Payment Method</h5>
+          <p id="most-selected-method" class="fs-3">N/A</p>
+        </div>
+      </div>
+      <div class="col-md-3 col-sm-6">
+        <div class="summary-card">
+          <h5>Total Potential Donations</h5>
+          <p id="total-donations" class="fs-3">$0</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Charts Section -->
+    <div class="row mb-4">
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            Payment Method Breakdown
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="method-chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-6">
+        <div class="card">
+          <div class="card-header">
+            Amount Selections Breakdown
+          </div>
+          <div class="card-body">
+            <div class="chart-container">
+              <canvas id="amount-chart"></canvas>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Actions Log Section -->
+    <div class="card">
+      <div class="card-header d-flex justify-content-between align-items-center">
+        User Actions Log
+        <div>
+          <input type="text" id="search-input" class="form-control search-input d-inline-block me-2" placeholder="Search actions...">
+          <button class="btn btn-export text-white me-2" onclick="exportToCSV()">Export to CSV</button>
+          <button class="btn btn-clear text-white" onclick="clearHistory()">Clear History</button>
+        </div>
+      </div>
+      <div class="card-body">
+        <table class="table table-striped" id="actions-table">
+          <thead>
+            <tr>
+              <th scope="col" onclick="sortTable(0)">Timestamp &#x25B4;</th>
+              <th scope="col" onclick="sortTable(1)">Action &#x25B4;</th>
+              <th scope="col" onclick="sortTable(2)">Details &#x25B4;</th>
+            </tr>
+          </thead>
+          <tbody id="actions-table-body">
+            <!-- Populated by JavaScript -->
+          </tbody>
+        </table>
+        <nav>
+          <ul class="pagination" id="pagination">
+            <!-- Populated by JavaScript -->
+          </ul>
+        </nav>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let sortDirections = [false, false, false];
+    let currentPage = 1;
+    const rowsPerPage = 10;
+    let actions = [];
+    let methodChart;
+    let amountChart;
+
+    // Function to format timestamp
+    function formatTimestamp(isoString) {
+      const date = new Date(isoString);
+      return date.toLocaleString('en-US', {
+        year: 'numeric',
+        month: 'short',
+        day: 'numeric',
+        hour: '2-digit',
+        minute: '2-digit',
+        second: '2-digit',
+        hour12: true,
+      });
+    }
+
+    // Function to extract amount from details
+    function extractAmount(details) {
+      const match = details.match(/Amount: \$([\d.]+)/);
+      return match ? parseFloat(match[1]) : 0;
+    }
+
+    // Function to update dashboard
+    function updateDashboard() {
+      actions = JSON.parse(localStorage.getItem('userActions') || '[]');
+      
+      // Update summary cards
+      document.getElementById('total-actions').textContent = actions.length;
+
+      const amounts = actions
+        .filter(action => action.action === 'Amount Selected' || action.action === 'Custom Amount Entered')
+        .map(action => action.details.replace('Amount: $', ''));
+      const amountCounts = amounts.reduce((acc, amount) => {
+        acc[amount] = (acc[amount] || 0) + 1;
+        return acc;
+      }, {});
+      const mostSelectedAmount = Object.keys(amountCounts).reduce((a, b) => 
+        amountCounts[a] > amountCounts[b] ? a : b, 'N/A');
+      document.getElementById('most-selected-amount').textContent = mostSelectedAmount !== 'N/A' ? `$${mostSelectedAmount}` : 'N/A';
+
+      const methods = actions
+        .filter(action => action.action === 'Payment Method Selected')
+        .map(action => action.details.replace('Method: ', ''));
+      const methodCounts = methods.reduce((acc, method) => {
+        acc[method] = (acc[method] || 0) + 1;
+        return acc;
+      }, {});
+      const mostSelectedMethod = Object.keys(methodCounts).reduce((a, b) => 
+        methodCounts[a] > methodCounts[b] ? a : b, 'N/A');
+      document.getElementById('most-selected-method').textContent = mostSelectedMethod;
+
+      const totalDonations = actions
+        .filter(action => action.action === 'Amount Selected' || action.action === 'Custom Amount Entered')
+        .reduce((sum, action) => sum + extractAmount(action.details), 0);
+      document.getElementById('total-donations').textContent = `$${totalDonations.toFixed(2)}`;
+
+      // Update charts
+      updateCharts(methodCounts, amountCounts);
+
+      // Populate table with pagination
+      populateTable();
+    }
+
+    // Function to update charts
+    function updateCharts(methodCounts, amountCounts) {
+      const methodLabels = Object.keys(methodCounts);
+      const methodData = Object.values(methodCounts);
+      const amountLabels = Object.keys(amountCounts);
+      const amountData = Object.values(amountCounts);
+
+      if (methodChart) methodChart.destroy();
+      methodChart = new Chart(document.getElementById('method-chart'), {
+        type: 'pie',
+        data: {
+          labels: methodLabels,
+          datasets: [{
+            data: methodData,
+            backgroundColor: ['#0335C1', '#e6f0ff', '#198754', '#dc3545'],
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: {
+              position: 'bottom',
+            }
+          }
+        }
+      });
+
+      if (amountChart) amountChart.destroy();
+      amountChart = new Chart(document.getElementById('amount-chart'), {
+        type: 'bar',
+        data: {
+          labels: amountLabels,
+          datasets: [{
+            label: 'Selections',
+            data: amountData,
+            backgroundColor: '#0335C1',
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          scales: {
+            y: {
+              beginAtZero: true,
+              ticks: {
+                stepSize: 1
+              }
+            }
+          }
+        }
+      });
+    }
+
+    // Function to populate table with pagination and search
+    function populateTable() {
+      const searchValue = document.getElementById('search-input').value.toLowerCase();
+      const filteredActions = actions.filter(action => 
+        action.action.toLowerCase().includes(searchValue) || 
+        action.details.toLowerCase().includes(searchValue) ||
+        formatTimestamp(action.timestamp).toLowerCase().includes(searchValue)
+      );
+
+      const tableBody = document.getElementById('actions-table-body');
+      tableBody.innerHTML = '';
+
+      const start = (currentPage - 1) * rowsPerPage;
+      const end = start + rowsPerPage;
+      const paginatedActions = filteredActions.slice(start, end);
+
+      paginatedActions.forEach(action => {
+        const row = document.createElement('tr');
+        row.innerHTML = `
+          <td>${formatTimestamp(action.timestamp)}</td>
+          <td>${action.action}</td>
+          <td>${action.details}</td>
+        `;
+        tableBody.appendChild(row);
+      });
+
+      updatePagination(filteredActions.length);
+    }
+
+    // Function to update pagination
+    function updatePagination(totalRows) {
+      const pagination = document.getElementById('pagination');
+      pagination.innerHTML = '';
+      const totalPages = Math.ceil(totalRows / rowsPerPage);
+
+      for (let i = 1; i <= totalPages; i++) {
+        const li = document.createElement('li');
+        li.className = `page-item ${i === currentPage ? 'active' : ''}`;
+        li.innerHTML = `<a class="page-link" href="#" onclick="changePage(${i})">${i}</a>`;
+        pagination.appendChild(li);
+      }
+    }
+
+    // Function to change page
+    window.changePage = function(page) {
+      currentPage = page;
+      populateTable();
+    }
+
+    // Event listener for search input
+    document.getElementById('search-input').addEventListener('input', () => {
+      currentPage = 1;
+      populateTable();
+    });
+
+    // Function to clear history
+    function clearHistory() {
+      if (confirm('Are you sure you want to clear all history? This action cannot be undone.')) {
+        localStorage.removeItem('userActions');
+        updateDashboard();
+      }
+    }
+
+    // Function to export to CSV
+    function exportToCSV() {
+      const csvContent = [
+        ['Timestamp', 'Action', 'Details'],
+        ...actions.map(action => [
+          formatTimestamp(action.timestamp),
+          action.action,
+          action.details
+        ])
+      ].map(row => row.join(',')).join('\n');
+
+      const blob = new Blob([csvContent], { type: 'text/csv;charset=utf-8;' });
+      const link = document.createElement('a');
+      link.href = URL.createObjectURL(blob);
+      link.download = 'teamwater_actions.csv';
+      link.click();
+    }
+
+    // Function to sort table
+    function sortTable(columnIndex) {
+      const table = document.getElementById('actions-table');
+      const rows = Array.from(table.tBodies[0].rows);
+      const direction = sortDirections[columnIndex] ? -1 : 1;
+      sortDirections[columnIndex] = !sortDirections[columnIndex];
+
+      rows.sort((a, b) => {
+        let valA = a.cells[columnIndex].textContent.trim();
+        let valB = b.cells[columnIndex].textContent.trim();
+
+        if (columnIndex === 0) {
+          valA = new Date(valA).getTime();
+          valB = new Date(valB).getTime();
+        }
+
+        return direction * (valA > valB ? 1 : valA < valB ? -1 : 0);
+      });
+
+      rows.forEach(row => table.tBodies[0].appendChild(row));
+
+      const headers = table.tHead.rows[0].cells;
+      Array.from(headers).forEach((header, index) => {
+        header.innerHTML = header.innerHTML.replace(/ &#x25B4;| &#x25BE;/g, '');
+        if (index === columnIndex) {
+          header.innerHTML += sortDirections[index] ? ' &#x25BE;' : ' &#x25B4;';
+        } else {
+          sortDirections[index] = false;
+        }
+      });
+
+      // Re-populate with sorted rows (but since we're sorting the full list, reset pagination)
+      currentPage = 1;
+      populateTable();
+    }
+
+    // Initial load and periodic update
+    updateDashboard();
+    setInterval(updateDashboard, 5000);
+  </script>
+</body>
+</html>
